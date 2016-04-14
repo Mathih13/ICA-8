@@ -1,5 +1,3 @@
-
-
 # The job of this calss is to hold information about 
 # The object that is supposed to be drawn
 # It does not draw anything specifically in this file,
