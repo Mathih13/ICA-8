@@ -1,5 +1,4 @@
-from Tkinter import *
-from WorldObject import *
+from view import *
 
 
 class ourCanvas():
