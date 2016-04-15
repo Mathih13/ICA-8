@@ -20,8 +20,8 @@ class riverController():
         self.river.updateWorld()
         self.setUpButtons()
        
-        
-
+    
+    
   
         
     def setUpButtons(self):
@@ -31,11 +31,14 @@ class riverController():
         b= Button(self.master, text="Get out", command=self.getOut)
         b.pack(side=LEFT)
         
-        c = Button(self.master, text="Chicken In", command=self.chickenIn_Out)
+        c = Button(self.master, text="Chicken in", command=self.chickenIn)
         c.pack(side=LEFT)
         
-        d= Button(self.master, text="Drive boat", command=self.moveBoat)
+        d= Button(self.master, text="Drive boat right", command=self.moveBoatRight)
         d.pack(side=LEFT)
+        
+        h = Button(self.master, text="Drive boat left", command=self.moveBoatLeft)
+        h.pack(side=LEFT)
         
         e= Button(self.master, text ="Fox in og out", command=self.foxIn_Out)
         e.pack(side=LEFT)
@@ -43,7 +46,10 @@ class riverController():
         f= Button(self.master, text="Grain in or out", command=self.grainIn_Out)
         f.pack(side=LEFT)
         
+        g= Button(self.master, text="chicken out", command=self.chickenOut)
+        g.pack(side=LEFT)
         
+     
     
         
     def getOut(self):
@@ -74,34 +80,71 @@ class riverController():
             return
 
       
-    def moveBoat(self):
+    def moveBoatRight(self):
         state = self.river.statusCheck()
-        if(self.river.statusCheck == "s1" or "s6" or "s8" or "s13" or "s14" or "s16" or "s20" or "22"):
-            self.river.crossriver()
-            self.canvasData.boat.move(390,1)      
-        else:
-            print"noooooh linje 76"
+        if (["chicken isat boat"] or ["fox isat boat"] or ["graint isat boat"] in self.river.river_db and (["boat isat left"] in self.river.river_db)):
+            
+            if (["chicken isat boat"] in self.river.river_db):
+                self.canvasData.chicken.move(450,1)
+                self.canvasData.boat.move(390,1)
+                self.river.crossriver()
+                
+            if (["grain isat boat"] in self.river.river_db):
+                self.canvasData.grain.move(5450,1)
+                self.canvasData.boat.move(390,1)
+                self.river.crossriver()
+            
+            if (["fox isat boat"] in self.river.river_db):
+                self.canvasData.fox.move(450,1)
+                self.canvasData.boat.move(390,1)
+                self.river.crossriver()
+                
+    def moveBoatLeft(self):
+        state = self.river.statusCheck()
+        if (self.river.statusCheck == "s3" or "s4" or "s9" or "s10" or "s12" or "s17" or "s18" or "s23" or "s24"):
+            self.canvasData.boat.move(-390,-1)
+            self.river.crossriver()  
+        if (self.river.statusCheck == "s1" or "s2" or "s6" or "s8" or "s13" or "s14" or "s16" or "s20" or "s22"):
+            print"boat is at left"
+            return 
+        
+    
         
             
+    def chickenOut(self):
+        state = self.river.statusCheck()
+        if (['grain isat left'] in self.river.river_db):
+            self.river.takeOut("chicken")
+            self.canvasData.chicken.move(200,1)        
         
-    def chickenIn_Out(self):
+    
+    
+    def chickenIn(self):
         state = self.river.statusCheck()
         if (self.river.statusCheck == "s1" or "s14" or "s20"):
             self.river.putIn("chicken")
             self.canvasData.chicken.move(115,-20)        
-        
-
-            
-            
+        #if(['chicken isat boat'] and ['boat is at right'] in self.river.river_db):
     
             
+            
+
     def foxIn_Out(self):
+        state = self.river.statusCheck()
         if (self.river.statusCheck == "s1" or "s6" or "s13" or "s14" ):
             self.river.putIn("fox")
-            self.canvasData.fox.move(220,-10)         
+            self.canvasData.fox.move(220,-10)   
+        else:
+            print"Noo noon noo"
        
         
     def grainIn_Out(self):
         if (['grain isat left'] in self.river.river_db):
             self.river.putIn("grain")
             self.canvasData.grain.move(180,-10)          
+
+
+
+
+
+        
