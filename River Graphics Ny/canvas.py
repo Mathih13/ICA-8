@@ -31,10 +31,12 @@ class ourCanvas():
         
         # Move all other objects relative to the position
         # of the river object
+        self.defaultPositions()
         
         
+     
         
-        
+    def defaultPositions(self):
         self.man.move(self.riverCoords[2]/2.75, self.riverCoords[0])
         self.boat.move(self.riverCoords[2]/2.25, self.riverCoords[0]+30)
         
@@ -49,7 +51,9 @@ class ourCanvas():
 
 
 
-
+    def resetCanvas(self):
+        self.w.delete(ALL)
+        self.setUp()
 
 
 
