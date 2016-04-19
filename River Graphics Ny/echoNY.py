@@ -37,13 +37,13 @@ class Echo():
         while True:
             data = s.recvfrom(1024)
             print data
-            addr = data[1]          
+            self.addr = data[1]          
             respons = self.decode(data)
             respons = str(respons)
             print respons
             if data:
                 print >>sys.stderr, 'sending data back to the client'
-                s.sendto(respons, (addr))
+                s.sendto(respons, (self.addr))
                 
         
             else:
@@ -62,6 +62,9 @@ class Echo():
         
         elif 'riverStatusCheck' in msg:
             return self.river.statusCheck
+
+        elif 'test' in msg:
+            return "Hello, " + str(self.addr)        
         
         if 'get' in msg:
             if 'man' in msg :

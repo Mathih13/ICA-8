@@ -138,7 +138,7 @@ class riverController():
         
         
     def connTest(self):
-        print client("getriver")
+        print client("test")
         
         
     def getRiverFromServer(self):
