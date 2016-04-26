@@ -80,13 +80,15 @@ class River(SM):
         
         if (['man isat boat'] in self.river_db):
             self.boatman = ' man'
+
     
         if (['man isat left'] in self.river_db):
             self.landmanleft = ' man'
-    
+
+        
         if (['man isat right']) in self.river_db:
-            self.landmanright = ' man'        
-    
+            self.landmanright = ' man'  
+         
     
     def interface(self):
         # Her implementeres logikken for "vakker" utskrift
@@ -155,12 +157,12 @@ class River(SM):
             return "s2"
             
         # Some at left, chicken at right in boat 
-        elif ['boat isat right'] in self.river_db and ['chicken isat boat'] in self.river_db and ['fox isat left'] in self.river_db and ['grain isat left'] in self.river_db:
+        elif ['man isat boat'] in self.river_db and ['boat isat right'] in self.river_db and ['chicken isat boat'] in self.river_db and ['fox isat left'] in self.river_db and ['grain isat left'] in self.river_db:
             print self.s3
             return "s3"
         
         # som at left, chicken at right
-        elif ['boat isat right'] in self.river_db and ['chicken isat right'] in self.river_db and ['fox isat left'] in self.river_db and ['grain isat left'] in self.river_db:
+        elif ['man isat right'] in self.river_db and ['boat isat right'] in self.river_db and ['chicken isat right'] in self.river_db and ['fox isat left'] in self.river_db and ['grain isat left'] in self.river_db:
             print self.s4
             return "s4"
             
@@ -241,35 +243,36 @@ class River(SM):
             return "s25"
             
             
-        elif ['chicken isat left'] in self.river_db and ['grain isat left'] in self.river_db and ['boat isat right'] in self.river_db and ['man isat boat'] in self.river_db:
+        elif ['fox isat left'] in self.river_db and ['chicken isat left'] in self.river_db and ['grain isat boat'] in self.river_db:
             print self.f1
             return "f1"
         elif ['fox isat left'] in self.river_db and ['chicken isat left'] in self.river_db and ['grain isat boat'] in self.river_db and ['boat isat right'] in self.river_db:
             print self.f2
             return "f2"
             
-          
-    def doesFail(self):
+            
+    def winCondition(self):
         #Boat at right, man in boat
         if ['boat isat right'] in self.river_db and ['man isat boat'] in self.river_db:
             if ['chicken isat left'] in self.river_db and ['grain isat left'] in self.river_db:
                 print 'MISHAP -- The chicken has eaten the grain! Try again.'
-                return True
+                self.killWorld()
             elif ['chicken isat left'] in self.river_db and ['fox isat left'] in self.river_db:
                 print 'MISHAP -- The fox has eaten the chicken! Try again.'
-                return True
+                self.killWorld()
 
         #Boat at left, man in boat
         elif ['boat isat left'] in self.river_db and ['man isat boat'] in self.river_db:
             if ['chicken isat right'] in self.river_db and ['grain isat right'] in self.river_db:
                 print 'MISHAP -- The chicken has eaten the grain! Try again.'
-                return True
+                self.killWorld()
             elif ['chicken isat right'] in self.river_db and ['fox isat right'] in self.river_db:
                 print 'MISHAP -- The fox has eaten the chicken! Try again.'
-                return True
+                self.killWorld()
                 
         elif ['chicken isat right'] in self.river_db and ['grain isat right'] in self.river_db and ['fox isat right'] in self.river_db:
-            print self.s25 
+            print self.s25
+            self.killWorld()
             
     # Denne funksjonen skal definere alle overgangene fra en tilstand til en annen
     # De kan være mange, så her må man skrive en smart kode
@@ -289,6 +292,7 @@ class River(SM):
         self.manCheck()
         self.interface()        
         self.statusCheck()
+        self.winCondition()
         
     def killWorld(self):
-        return
+        sys.exit()    

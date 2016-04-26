@@ -1,5 +1,5 @@
 from view import *
-from RiverController import *
+from riverController import *
 
 # Contains information about the tkinter frame
 # and loads the canvas and RiverController
